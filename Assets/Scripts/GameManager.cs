@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager _instance;
-    public int level;
     public LevelScriptableObject[] levelStats;
+    private int level;
+    
     public string playerName;
     
     public enum State{
@@ -16,6 +18,8 @@ public class GameManager : MonoBehaviour
     }
 
     private State gameState;
+
+    
     void Awake(){
         if(_instance!=null && _instance!=this){
             Destroy(gameObject);
@@ -27,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private void Start() {
         gameState = State.Pause;
-          
+
     }
     public void Play(){
         gameState = State.Play;
@@ -46,25 +50,43 @@ public class GameManager : MonoBehaviour
 
     
 
-    public void ChargeLevel(){
-        switch(level){
-            case 1:{
-                SetInitialValues(levelStats[0]);
-                break;
-            }
-            case 2:{
-                SetInitialValues(levelStats[1]);
-                break;
-            }
-            case 3:{
-                SetInitialValues(levelStats[2]);
-                break;
-            }
+    public void UpdateLevel(){
+        if(level==16){
+            SceneManager.LoadScene(3);
         }
+        else{
+            level++;
+        }
+        
     }
-
+    public int GetLevel(){
+        return level;
+    }
+    
+    //This method calls the level loader and passes it the scriptable object for that level.
+    public void ChargeLevel(){
+        SetInitialValues(levelStats[level]);
+        
+    }
+    /*  this method loads the values ​​of the level using scriptableobjects
+        sets the speed of the level.
+        sets the final score of the level.
+        sets the number of pieces of the level.
+        sets the number of powers of the level.
+        Clear all the pieces from the previous level.
+        activates the transition effect of the current level.
+     */
     void SetInitialValues(LevelScriptableObject level){
         SpeedManager._instance.RecalculateSpeed(level.initialVelocity);
         ScoringSystemManager._instance.SetFinalScoreValue(level.finalScore);
+        GeneratorManager._instance.UpdateNumberOfPieces(level.numberOfPieces);
+        GeneratorManager._instance.UpdateNumberOfPowers(level.numberOfPowers);
+        GeneratorManager._instance.RemoveAllPieces();
+        GameObject.FindObjectOfType<ListOfDropPieces>().RemoveAllPieces();
+        HudManager._instance.ActivateTransition();
     }
+
+    
+
+    
 }

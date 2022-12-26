@@ -10,6 +10,7 @@ public class HudManager : MonoBehaviour
     public List<Sprite> backgroundImages;
     public Image panelImage;
     
+    public GameObject transition;
     void Awake(){
         if(_instance!=null && _instance!=this){
             Destroy(gameObject);
@@ -18,9 +19,15 @@ public class HudManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         _instance = this;
     }
+    
 
     public void UpdatePanelImage(Sprite newImage){
         panelImage.sprite= newImage;
+    }
+
+    public void ActivateTransition(){
+        transition.SetActive(true);
+        transition.GetComponent<Transition>().Activate();
     }
     
 }

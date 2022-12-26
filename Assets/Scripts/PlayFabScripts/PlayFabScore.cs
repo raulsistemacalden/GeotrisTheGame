@@ -10,15 +10,12 @@ public class PlayFabScore : MonoBehaviour
     
     public void SubmitScore(int playerScore)
     {
-        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
-        {
-            Statistics = new List<StatisticUpdate> {
-            new StatisticUpdate {
-                StatisticName = "HighScore",
-                Value = playerScore
+        UpdatePlayerStatisticsRequest requestData = new UpdatePlayerStatisticsRequest(){
+            Statistics =new List<StatisticUpdate>(){
+                new StatisticUpdate(){StatisticName = "HighScore", Value= playerScore}
             }
-        }
-        }, result => OnStatisticsUpdated(result), FailureCallback);
+        };
+        PlayFabClientAPI.UpdatePlayerStatistics(requestData, OnStatisticsUpdated, FailureCallback);
     }
 
     private void OnStatisticsUpdated(UpdatePlayerStatisticsResult updateResult)
@@ -35,18 +32,18 @@ public class PlayFabScore : MonoBehaviour
 
     public void RequestLeaderboard()
     {
-        PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest
-        {
+        GetLeaderboardRequest requestData = new GetLeaderboardRequest(){
             StatisticName = "HighScore",
             StartPosition = 0,
             MaxResultsCount = 10
-        }, result => DisplayLeaderboard(result), FailureCallback);
+        };
+        PlayFabClientAPI.GetLeaderboard(requestData, DisplayLeaderboard, FailureCallback);
+        
     }
 
     private void DisplayLeaderboard(GetLeaderboardResult result)
     {
         List<PlayerLeaderboardEntry> scoreList = result.Leaderboard;
-        Debug.Log(scoreList.Count);
         int i = 0;
         foreach (var item in scoreList)
         {

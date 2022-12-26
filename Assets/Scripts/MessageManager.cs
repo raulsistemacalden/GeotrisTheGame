@@ -7,7 +7,7 @@ public class MessageManager : MonoBehaviour
 {
     public GameObject message;
     public Text messageTxt;
-    private string name;
+    private string _name;
 
     private void Start()
     {

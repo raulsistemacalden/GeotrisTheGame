@@ -5,7 +5,6 @@ using UnityEngine;
 public class SpeedManager : MonoBehaviour
 {
     public static SpeedManager _instance;
-    private float initialSpeed;
     public float speed;
     private const float delay = 10;
     private float time;
@@ -35,8 +34,7 @@ public class SpeedManager : MonoBehaviour
     }
 
     public void RecalculateSpeed(float speed){
-        initialSpeed = speed;
-        this.speed= initialSpeed;
+        this.speed= speed;    
     }    
 
 

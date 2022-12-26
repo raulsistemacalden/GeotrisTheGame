@@ -4,27 +4,23 @@ using UnityEngine;
 
 public class GarbageCollector : MonoBehaviour
 {
-    private GeneratorManager generator;
+    
     private int dropPiecesCount;
     
 
-    private void Start()
-    {
-        generator = GameObject.Find("GeneratorManager").GetComponent<GeneratorManager>();
-         
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Piece") {
             Destroy(other.gameObject);
-            if (dropPiecesCount < 3)
+            if (dropPiecesCount < 2)
             {
                 dropPiecesCount++;
             }
             else {
                 dropPiecesCount = 0;
-                generator.CreateDropPiece();
+                GeneratorManager._instance.CreateDropPiece();
 
             }
 

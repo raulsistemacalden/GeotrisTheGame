@@ -4,29 +4,43 @@ using UnityEngine;
 
 public class GeneratorManager : MonoBehaviour
 {
-    public GameObject[] pieces;
-    public GameObject[] powers;
-    public Transform[] trans;
-    public Transform dropPosition;
+    public static GeneratorManager _instance;
+    public GameObject[] pieces; // game pieces
+    private List<GameObject> piecesList = new List<GameObject>(); // list of generated pieces 
+    private int numberOfPieces; // number of pieces of the current level
+    public GameObject[] powers; // game powers
+    private int numberOfPowers; // number of powers of the current level
+    public Transform[] trans; // positions from which pieces are created
+    public Transform dropPosition; // position from where the lost pieces fall
 
+    // time and delay control the speed of creation of the pieces
     private float time;
     private float delay;
 
-    private ListOfDropPieces dropPieces;
+    // control over missing pieces
+    private ListOfDropPieces dropPieces;    
 
-    
-
+    // parentOf pieces used to locate pieces within the pieces object in the hierarchy
     private Transform parentOfPieces;
 
+    private void Awake(){
+        if(_instance!=null && _instance!=this){
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
     private void Start()
     {
-        delay = 1f;
+        delay = 0.8f;
         dropPieces = GameObject.Find("DropPieces").GetComponent<ListOfDropPieces>();
         parentOfPieces = GameObject.Find("Pieces").GetComponent<Transform>();
     }
 
     private void Update()
     {
+        // generation of game pieces or powers, if it is in Play state
         if (GameManager._instance.GetState() == GameManager.State.Play) {
             if (time < delay)
             {
@@ -35,36 +49,35 @@ public class GeneratorManager : MonoBehaviour
             else
             {
                 GeneratePieces();
+                time = 0;
             }
-
-        }
-        
+        }        
     }
 
     //we generate a normal piece or a power
     private void GeneratePieces() {
         GameObject newPiece;
-        if ((int)Random.Range(0, 40) == 30)
+        if ((int)Random.Range(0, 30) == 5)
         {
-            newPiece = CreatePower(powers[RandomNumberOfPower()], trans[RandomNumber()]);
+            newPiece = CreateObj(powers[RandomPos(numberOfPowers)], trans[RandomPos(trans.Length)]);
+            
         }
         else
         {
-            newPiece = CreatePiece(pieces[RandomNumberOfPieces()], trans[RandomNumber()]);
+            newPiece = CreateObj(pieces[RandomPos(numberOfPieces)], trans[RandomPos(trans.Length)]);
         }
+        piecesList.Add(newPiece);
         newPiece.transform.parent = parentOfPieces;
-        time = 0;
-    }
-    private GameObject CreatePiece( GameObject piece, Transform trans) {
-        return Instantiate(piece, trans.position, Quaternion.identity);
-    }
-    
-    private GameObject CreatePower( GameObject power, Transform trans) {
-        return Instantiate(power, trans.position, Quaternion.identity);
+        
     }
 
+    private GameObject CreateObj( Object obj, Transform trans){
+        return Instantiate((GameObject)obj, trans.position, Quaternion.identity);
+    }
+    
     public void CreateDropPiece() {
-        GameObject drop = CreatePiece(pieces[RandomNumberOfPieces()], dropPosition);
+        dropPosition.position = new Vector3(dropPosition.transform.position.x+Random.Range(-0.05f,0.05f),dropPosition.transform.position.y,dropPosition.transform.position.z);
+        GameObject drop = CreateObj(pieces[RandomPos(numberOfPieces)], dropPosition);
         drop.GetComponent<PieceCollider>().ChangeCollider();
         Destroy(drop.GetComponent<PieceMovement>());
         drop.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
@@ -72,20 +85,35 @@ public class GeneratorManager : MonoBehaviour
         dropPieces.AddDropPiece(drop);
     }
 
-    // Esto se tiene que modificar, cuanto se agregue otra pieza
-    private int RandomNumber() {
-        return (int)Random.Range(0, 3);
-    }
-    private int RandomNumberOfPieces(){
-        return (int)Random.Range(0,pieces.Length);
+    public void RemoveAllPieces(){
+        if(piecesList!=null){
+            foreach(GameObject piece in piecesList){
+                Destroy(piece);
+            }
+            piecesList.Clear();
+        }
     }
 
-    private int RandomNumberOfPower(){
-        return (int)Random.Range(0,powers.Length);
+    // Esto se tiene que modificar, cuanto se agregue otra pieza
+    private int RandomPos(int elements){
+        return (int) Random.Range(0, elements);
     }
 
     public void SetDelay(float value) {
         delay = value;
+    }
+
+    public void UpdateNumberOfPowers(int newNumber){
+        numberOfPowers = newNumber;
+    }
+    public int GetNumberOfPowers(){
+        return numberOfPowers;
+    }
+    public void UpdateNumberOfPieces(int newNumber){
+        numberOfPieces = newNumber;
+    }
+    public int GetNumberOfPieces(){
+        return numberOfPowers;
     }
 
 

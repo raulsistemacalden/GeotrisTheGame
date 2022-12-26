@@ -93,6 +93,8 @@ namespace PlayFab.Events
         public event PlayFabResultEvent<GetPlayFabIDsFromFacebookInstantGamesIdsResult> OnServerGetPlayFabIDsFromFacebookInstantGamesIdsResultEvent;
         public event PlayFabRequestEvent<GetPlayFabIDsFromGenericIDsRequest> OnServerGetPlayFabIDsFromGenericIDsRequestEvent;
         public event PlayFabResultEvent<GetPlayFabIDsFromGenericIDsResult> OnServerGetPlayFabIDsFromGenericIDsResultEvent;
+        public event PlayFabRequestEvent<GetPlayFabIDsFromNintendoServiceAccountIdsRequest> OnServerGetPlayFabIDsFromNintendoServiceAccountIdsRequestEvent;
+        public event PlayFabResultEvent<GetPlayFabIDsFromNintendoServiceAccountIdsResult> OnServerGetPlayFabIDsFromNintendoServiceAccountIdsResultEvent;
         public event PlayFabRequestEvent<GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest> OnServerGetPlayFabIDsFromNintendoSwitchDeviceIdsRequestEvent;
         public event PlayFabResultEvent<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> OnServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResultEvent;
         public event PlayFabRequestEvent<GetPlayFabIDsFromPSNAccountIDsRequest> OnServerGetPlayFabIDsFromPSNAccountIDsRequestEvent;
@@ -153,6 +155,8 @@ namespace PlayFab.Events
         public event PlayFabResultEvent<LinkXboxAccountResult> OnServerLinkXboxAccountResultEvent;
         public event PlayFabRequestEvent<LoginWithServerCustomIdRequest> OnServerLoginWithServerCustomIdRequestEvent;
         public event PlayFabResultEvent<ServerLoginResult> OnServerLoginWithServerCustomIdResultEvent;
+        public event PlayFabRequestEvent<LoginWithSteamIdRequest> OnServerLoginWithSteamIdRequestEvent;
+        public event PlayFabResultEvent<ServerLoginResult> OnServerLoginWithSteamIdResultEvent;
         public event PlayFabRequestEvent<LoginWithXboxRequest> OnServerLoginWithXboxRequestEvent;
         public event PlayFabResultEvent<ServerLoginResult> OnServerLoginWithXboxResultEvent;
         public event PlayFabRequestEvent<LoginWithXboxIdRequest> OnServerLoginWithXboxIdRequestEvent;

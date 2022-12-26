@@ -8,26 +8,24 @@ public class PowerManager : MonoBehaviour
     private Transform father;
     private GameObject[] pieces;
     private ScoringSystemManager score;    
-    private GeneratorManager generator;
     //save current speed
     private float currentSpeed;
+    [SerializeField]
+    private GameObject soldier;
     private void Start(){
         father=GameObject.Find("DropPieces").GetComponent<Transform>();
         list = father.GetComponent<ListOfDropPieces>();
-        generator = GameObject.Find("GeneratorManager").GetComponent<GeneratorManager>();
-        pieces = generator.pieces;
+        pieces = GeneratorManager._instance.pieces;
         score = GameObject.Find("ScoringSystemManager").GetComponent<ScoringSystemManager>();  
         
         
     }
+    //this power removes all the pieces from the box
     private void Power1(){
-        for(int i=0;i<father.childCount;i++){
-            Destroy(father.GetChild(i).gameObject);
-        }
-        list.listOfDropPieces.Clear();
-        list.listOfDropPieces.TrimExcess();
-            
+        list.RemoveAllPieces();
+                
     }
+    //This power removes all pieces that are of the same type from the box.
     private void Power2(string name){
         for(int i=father.childCount-1;i>-1;i--){
             if(father.GetChild(i).name == name){
@@ -38,19 +36,31 @@ public class PowerManager : MonoBehaviour
         }
         
     }
-
+    //This power causes the value of the score multiplier to be 2
     private void Power3(){
         StartCoroutine("MultiplyScore");
         
     }
-
+    //This power reduces the movement speed of the pieces
     private void Power4(){
         currentSpeed = SpeedManager._instance.speed;
         StartCoroutine("ChangeVelocity");
     }
+    //This power activates the soldier who shoots projectiles
+    private void Power5(){
+        StartCoroutine(ActivateSoldier());
+    }
+
+    IEnumerator ActivateSoldier(){
+        soldier.SetActive(true);
+        yield return new WaitForSeconds(10);
+        soldier.SetActive(false);
+    }
 
     private string RandomPiece(){
-        return pieces[Random.Range(0,pieces.Length)].name + "(Clone)";
+        string name = pieces[Random.Range(0,GeneratorManager._instance.GetNumberOfPieces())].name + "(Clone)";
+        Debug.Log("la pieza que se elimina es la "+name);
+        return name;
     }
     
     IEnumerator MultiplyScore(){
@@ -62,9 +72,9 @@ public class PowerManager : MonoBehaviour
     IEnumerator ChangeVelocity()
     {
         SpeedManager._instance.speed = 2f;
-        generator.SetDelay(0.8f);
+        GeneratorManager._instance.SetDelay(0.8f);
         yield return new WaitForSeconds(15);
-        generator.SetDelay(0.5f);
+        GeneratorManager._instance.SetDelay(0.5f);
         SpeedManager._instance.speed= currentSpeed;
         PieceMovement[] pieces = GameObject.Find("Pieces").transform.GetComponentsInChildren<PieceMovement>();
         foreach (var childPiece in pieces) {
@@ -86,6 +96,9 @@ public class PowerManager : MonoBehaviour
                 break;
             case "PP4(Clone)":
                 Power4();
+                break;
+            case "PP5(Clone)":
+                Power5();
                 break;
             
 

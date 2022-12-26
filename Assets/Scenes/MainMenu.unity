@@ -283,7 +283,6 @@ GameObject:
   - component: {fileID: 403805605}
   - component: {fileID: 403805609}
   - component: {fileID: 403805608}
-  - component: {fileID: 403805606}
   m_Layer: 8
   m_Name: NameText
   m_TagString: Untagged
@@ -310,19 +309,6 @@ RectTransform:
   m_AnchoredPosition: {x: 2.13, y: 377.18}
   m_SizeDelta: {x: 655, y: 112}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &403805606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403805604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbb1534ef70194e48ad56f2b1b638073, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: {fileID: 1611267453}
 --- !u!114 &403805608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +428,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 444065048}
-        m_MethodName: ButtonExit
+        m_MethodName: ButtonStartFirst
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -500,7 +486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb1534ef70194e48ad56f2b1b638073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: {fileID: 0}
+  _name: {fileID: 0}
+  transitionPanel: {fileID: 0}
 --- !u!1 &576152932
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +901,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb1534ef70194e48ad56f2b1b638073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: {fileID: 1611267453}
+  _name: {fileID: 1611267453}
+  transitionPanel: {fileID: 0}
 --- !u!95 &904669354
 Animator:
   serializedVersion: 3
@@ -998,7 +986,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1156767950
 GameObject:
@@ -1107,8 +1095,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf8ac7a6b5369d40bee4a2d01ebeed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
-  levelStats: []
+  levelStats:
+  - {fileID: 11400000, guid: b2a5a4cdaac08b94890e52ac776c7211, type: 2}
+  - {fileID: 11400000, guid: 79a11fa24063b074aac0bda8264f932a, type: 2}
+  - {fileID: 11400000, guid: 02442bdf71aecc749a178bcb411dcfed, type: 2}
+  - {fileID: 11400000, guid: 9974a5e843bb5db4d8d4369e6153f182, type: 2}
+  - {fileID: 11400000, guid: d0c4ce239fe7a504eac28a73993ffed6, type: 2}
+  - {fileID: 11400000, guid: 20b806a6e7913e542a1c0b651416b75e, type: 2}
+  - {fileID: 11400000, guid: 20ff2f584d6325e49a7c9774f3765daa, type: 2}
+  - {fileID: 11400000, guid: d62094e370b6b33439fee366a80e6574, type: 2}
+  - {fileID: 11400000, guid: 02b7be6b6440d1a40b49237972b85ca9, type: 2}
+  - {fileID: 11400000, guid: 6c46ea604102bc14fbd4329014a01e19, type: 2}
+  - {fileID: 11400000, guid: fe2d4aeb92d92464bb1a722f2ae3e9d6, type: 2}
+  - {fileID: 11400000, guid: fdf7a7e85eb834d4dab63458052d7eea, type: 2}
+  - {fileID: 11400000, guid: 1270373e8825aa740bae5df5666f2d58, type: 2}
+  - {fileID: 11400000, guid: 0203c39d4668c644c84b1a64105c07e6, type: 2}
+  - {fileID: 11400000, guid: 409780101cb5cd5468c6cc62a86ca35c, type: 2}
   playerName: 
 --- !u!4 &1219883452
 Transform:
@@ -1122,7 +1124,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1330454648
 GameObject:
@@ -1721,7 +1723,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &2001306735
 AudioSource:
@@ -1971,7 +1973,7 @@ RectTransform:
   m_Children:
   - {fileID: 1156767951}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

@@ -7,18 +7,16 @@ public class BestScore : MonoBehaviour
 {
     private static int bestScore;
 
-    private ScoringSystemManager score;
-
+    
     public Text txtScore;
 
     public PlayFabScore scores;
 
     private void Start()
     {
-        score = GameObject.Find("ScoringSystemManager").GetComponent<ScoringSystemManager>();
-        bestScore= PlayerPrefs.GetInt("highscore", bestScore);
+        scores.SubmitScore(ScoringSystemManager._instance.GetScore());
+        bestScore= PlayerPrefs.GetInt("HighScore", bestScore);
         SetBestScore();
-        scores.SubmitScore(score.GetScore());
         StartCoroutine(ShowLeaderboard());
     }
     IEnumerator ShowLeaderboard() {
@@ -26,8 +24,8 @@ public class BestScore : MonoBehaviour
         scores.RequestLeaderboard();
     }
     private void SetBestScore() {
-        if (score.GetScore() > bestScore) {
-            bestScore = score.GetScore();
+        if (ScoringSystemManager._instance.GetScore() > bestScore) {
+            bestScore = ScoringSystemManager._instance.GetScore();
             
         }
 

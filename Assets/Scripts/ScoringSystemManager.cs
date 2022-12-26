@@ -41,4 +41,12 @@ public class ScoringSystemManager : MonoBehaviour
     public void SetFinalScoreValue(int value){
         this.finalScoreValue = value;
     }
+
+    void Update(){
+        if(score>=GameManager._instance.levelStats[GameManager._instance.GetLevel()].finalScore){
+            GameManager._instance.UpdateLevel();
+            GameManager._instance.ChargeLevel();
+            
+        }
+    }
 }

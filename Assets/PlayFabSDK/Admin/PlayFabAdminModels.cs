@@ -226,91 +226,6 @@ namespace PlayFab.AdminModels
     }
 
     [Serializable]
-    public class AddServerBuildRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// server host regions in which this build should be running and available
-        /// </summary>
-        public List<Region> ActiveRegions;
-        /// <summary>
-        /// unique identifier for the build executable
-        /// </summary>
-        public string BuildId;
-        /// <summary>
-        /// appended to the end of the command line when starting game servers
-        /// </summary>
-        public string CommandLineTemplate;
-        /// <summary>
-        /// developer comment(s) for this build
-        /// </summary>
-        public string Comment;
-        /// <summary>
-        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        /// </summary>
-        public Dictionary<string,string> CustomTags;
-        /// <summary>
-        /// path to the game server executable. Defaults to gameserver.exe
-        /// </summary>
-        public string ExecutablePath;
-        /// <summary>
-        /// maximum number of game server instances that can run on a single host machine
-        /// </summary>
-        public int MaxGamesPerHost;
-        /// <summary>
-        /// minimum capacity of additional game server instances that can be started before the autoscaling service starts new host
-        /// machines (given the number of current running host machines and game server instances)
-        /// </summary>
-        public int MinFreeGameSlots;
-    }
-
-    [Serializable]
-    public class AddServerBuildResult : PlayFabResultCommon
-    {
-        /// <summary>
-        /// array of regions where this build can used, when it is active
-        /// </summary>
-        public List<Region> ActiveRegions;
-        /// <summary>
-        /// unique identifier for this build executable
-        /// </summary>
-        public string BuildId;
-        /// <summary>
-        /// appended to the end of the command line when starting game servers
-        /// </summary>
-        public string CommandLineTemplate;
-        /// <summary>
-        /// developer comment(s) for this build
-        /// </summary>
-        public string Comment;
-        /// <summary>
-        /// path to the game server executable. Defaults to gameserver.exe
-        /// </summary>
-        public string ExecutablePath;
-        /// <summary>
-        /// maximum number of game server instances that can run on a single host machine
-        /// </summary>
-        public int MaxGamesPerHost;
-        /// <summary>
-        /// minimum capacity of additional game server instances that can be started before the autoscaling service starts new host
-        /// machines (given the number of current running host machines and game server instances)
-        /// </summary>
-        public int MinFreeGameSlots;
-        /// <summary>
-        /// the current status of the build validation and processing steps
-        /// </summary>
-        public GameBuildStatus? Status;
-        /// <summary>
-        /// time this build was last modified (or uploaded, if this build has never been modified)
-        /// </summary>
-        public DateTime Timestamp;
-        /// <summary>
-        /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
-        /// title has been selected.
-        /// </summary>
-        public string TitleId;
-    }
-
-    [Serializable]
     public class AddUserVirtualCurrencyRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -391,10 +306,6 @@ namespace PlayFab.AdminModels
         /// The IP address on which the ban was applied. May affect multiple players.
         /// </summary>
         public string IPAddress;
-        /// <summary>
-        /// The MAC address on which the ban was applied. May affect multiple players.
-        /// </summary>
-        public string MACAddress;
         /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
@@ -658,6 +569,14 @@ namespace PlayFab.AdminModels
         public int Amount;
     }
 
+    public enum ChurnRiskLevel
+    {
+        NoData,
+        LowRisk,
+        MediumRisk,
+        HighRisk
+    }
+
     [Serializable]
     public class CloudScriptFile : PlayFabBaseModel
     {
@@ -798,7 +717,7 @@ namespace PlayFab.AdminModels
         /// <summary>
         /// Size of the content in bytes
         /// </summary>
-        public uint Size;
+        public double Size;
     }
 
     public enum ContinentCode
@@ -1509,6 +1428,35 @@ namespace PlayFab.AdminModels
         public List<string> TitleIds;
     }
 
+    /// <summary>
+    /// This API lets developers delete a membership subscription.
+    /// </summary>
+    [Serializable]
+    public class DeleteMembershipSubscriptionRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// Id of the membership to apply the override expiration date to.
+        /// </summary>
+        public string MembershipId;
+        /// <summary>
+        /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        /// </summary>
+        public string PlayFabId;
+        /// <summary>
+        /// Id of the subscription that should be deleted from the membership.
+        /// </summary>
+        public string SubscriptionId;
+    }
+
+    [Serializable]
+    public class DeleteMembershipSubscriptionResult : PlayFabResultCommon
+    {
+    }
+
     [Serializable]
     public class DeleteOpenIdConnectionRequest : PlayFabRequestCommon
     {
@@ -1830,6 +1778,31 @@ namespace PlayFab.AdminModels
         /// address when the export is complete.
         /// </summary>
         public string JobReceiptId;
+    }
+
+    /// <summary>
+    /// Request must contain the Segment ID
+    /// </summary>
+    [Serializable]
+    public class ExportPlayersInSegmentRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Unique identifier of the requested segment.
+        /// </summary>
+        public string SegmentId;
+    }
+
+    [Serializable]
+    public class ExportPlayersInSegmentResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// Unique identifier of the export for the requested Segment.
+        /// </summary>
+        public string ExportId;
+        /// <summary>
+        /// Unique identifier of the requested Segment.
+        /// </summary>
+        public string SegmentId;
     }
 
     [Serializable]
@@ -2372,7 +2345,7 @@ namespace PlayFab.AdminModels
         EvaluationModePlayerCountExceeded,
         GetPlayersInSegmentRateLimitExceeded,
         CloudScriptFunctionNameSizeExceeded,
-        InsightsManagementTitleInEvaluationMode,
+        PaidInsightsFeaturesNotEnabled,
         CloudScriptAzureFunctionsQueueRequestError,
         EvaluationModeTitleCountExceeded,
         InsightsManagementTitleNotInFlight,
@@ -2392,6 +2365,33 @@ namespace PlayFab.AdminModels
         WasNotCreatedWithCloudRoot,
         LegacyMultiplayerServersDeprecated,
         VirtualCurrencyCurrentlyUnavailable,
+        SteamUserNotFound,
+        ElasticSearchOperationFailed,
+        NotImplemented,
+        PublisherNotFound,
+        PublisherDeleted,
+        ApiDisabledForMigration,
+        ResourceNameUpdateNotAllowed,
+        ApiNotEnabledForTitle,
+        DuplicateTitleNameForPublisher,
+        AzureTitleCreationInProgress,
+        TitleConstraintsPublisherDeletion,
+        InvalidPlayerAccountPoolId,
+        PlayerAccountPoolNotFound,
+        PlayerAccountPoolDeleted,
+        TitleCleanupInProgress,
+        AzureResourceConcurrentOperationInProgress,
+        TitlePublisherUpdateNotAllowed,
+        AzureResourceManagerNotSupportedInStamp,
+        ApiNotIncludedInAzurePlayFabFeatureSet,
+        GoogleServiceAccountFailedAuth,
+        GoogleAPIServiceUnavailable,
+        GoogleAPIServiceUnknownError,
+        NoValidIdentityForAad,
+        PlayerIdentityLinkNotFound,
+        PhotonApplicationIdAlreadyInUse,
+        CloudScriptUnableToDeleteProductionRevision,
+        CustomIdNotFound,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
         MatchmakingQueueNotFound,
@@ -2413,9 +2413,15 @@ namespace PlayFab.AdminModels
         MatchmakingQueueLimitExceeded,
         MatchmakingRequestTypeMismatch,
         MatchmakingBadRequest,
+        PubSubFeatureNotEnabledForTitle,
+        PubSubTooManyRequests,
+        PubSubConnectionNotFoundForEntity,
+        PubSubConnectionHandleInvalid,
+        PubSubSubscriptionLimitExceeded,
         TitleConfigNotFound,
         TitleConfigUpdateConflict,
         TitleConfigSerializationError,
+        CatalogApiNotImplemented,
         CatalogEntityInvalid,
         CatalogTitleIdMissing,
         CatalogPlayerIdMissing,
@@ -2468,9 +2474,11 @@ namespace PlayFab.AdminModels
         ExplorerBasicUpdateQueryError,
         ExplorerBasicSavedQueriesLimit,
         ExplorerBasicSavedQueryNotFound,
+        TenantShardMapperShardNotFound,
         TitleNotEnabledForParty,
         PartyVersionNotFound,
         MultiplayerServerBuildReferencedByMatchmakingQueue,
+        MultiplayerServerBuildReferencedByBuildAlias,
         ExperimentationExperimentStopped,
         ExperimentationExperimentRunning,
         ExperimentationExperimentNotFound,
@@ -2507,7 +2515,42 @@ namespace PlayFab.AdminModels
         CreateSegmentRateLimitExceeded,
         UpdateSegmentRateLimitExceeded,
         GetSegmentsRateLimitExceeded,
-        SnapshotNotFound
+        AsyncExportNotInFlight,
+        AsyncExportNotFound,
+        AsyncExportRateLimitExceeded,
+        SnapshotNotFound,
+        InventoryApiNotImplemented,
+        LobbyDoesNotExist,
+        LobbyRateLimitExceeded,
+        LobbyPlayerAlreadyJoined,
+        LobbyNotJoinable,
+        LobbyMemberCannotRejoin,
+        LobbyCurrentPlayersMoreThanMaxPlayers,
+        LobbyPlayerNotPresent,
+        LobbyBadRequest,
+        LobbyPlayerMaxLobbyLimitExceeded,
+        LobbyNewOwnerMustBeConnected,
+        LobbyCurrentOwnerStillConnected,
+        LobbyMemberIsNotOwner,
+        EventSamplingInvalidRatio,
+        EventSamplingInvalidEventNamespace,
+        EventSamplingInvalidEventName,
+        EventSamplingRatioNotFound,
+        EventSinkConnectionInvalid,
+        EventSinkConnectionUnauthorized,
+        EventSinkRegionInvalid,
+        EventSinkLimitExceeded,
+        EventSinkSasTokenInvalid,
+        EventSinkNotFound,
+        EventSinkNameInvalid,
+        EventSinkSasTokenPermissionInvalid,
+        EventSinkSecretInvalid,
+        EventSinkTenantNotFound,
+        EventSinkAadNotFound,
+        EventSinkDatabaseNotFound,
+        OperationCanceled,
+        InvalidDisplayNameRandomSuffixLength,
+        AllowNonUniquePlayerDisplayNamesDisableNotAllowed
     }
 
     [Serializable]
@@ -2904,6 +2947,31 @@ namespace PlayFab.AdminModels
     }
 
     /// <summary>
+    /// Request must contain the ExportId
+    /// </summary>
+    [Serializable]
+    public class GetPlayersInSegmentExportRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Unique identifier of the export for the requested Segment.
+        /// </summary>
+        public string ExportId;
+    }
+
+    [Serializable]
+    public class GetPlayersInSegmentExportResponse : PlayFabResultCommon
+    {
+        /// <summary>
+        /// Url from which the index file can be downloaded.
+        /// </summary>
+        public string IndexUrl;
+        /// <summary>
+        /// Shows the current status of the export
+        /// </summary>
+        public string State;
+    }
+
+    /// <summary>
     /// Initial request must contain at least a Segment ID. Subsequent requests must contain the Segment ID as well as the
     /// Continuation Token. Failure to send the Continuation Token will result in a new player segment list being generated.
     /// Each time the Continuation Token is passed in the length of the Total Seconds to Live is refreshed. If too much time
@@ -3081,6 +3149,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string PolicyName;
         /// <summary>
+        /// Policy version.
+        /// </summary>
+        public int PolicyVersion;
+        /// <summary>
         /// The statements in the requested policy.
         /// </summary>
         public List<PermissionStatement> Statements;
@@ -3168,79 +3240,6 @@ namespace PlayFab.AdminModels
         /// List of title segments.
         /// </summary>
         public List<SegmentModel> Segments;
-    }
-
-    [Serializable]
-    public class GetServerBuildInfoRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// unique identifier of the previously uploaded build executable for which information is being requested
-        /// </summary>
-        public string BuildId;
-    }
-
-    /// <summary>
-    /// Information about a particular server build
-    /// </summary>
-    [Serializable]
-    public class GetServerBuildInfoResult : PlayFabResultCommon
-    {
-        /// <summary>
-        /// array of regions where this build can used, when it is active
-        /// </summary>
-        public List<Region> ActiveRegions;
-        /// <summary>
-        /// unique identifier for this build executable
-        /// </summary>
-        public string BuildId;
-        /// <summary>
-        /// developer comment(s) for this build
-        /// </summary>
-        public string Comment;
-        /// <summary>
-        /// error message, if any, about this build
-        /// </summary>
-        public string ErrorMessage;
-        /// <summary>
-        /// maximum number of game server instances that can run on a single host machine
-        /// </summary>
-        public int MaxGamesPerHost;
-        /// <summary>
-        /// minimum capacity of additional game server instances that can be started before the autoscaling service starts new host
-        /// machines (given the number of current running host machines and game server instances)
-        /// </summary>
-        public int MinFreeGameSlots;
-        /// <summary>
-        /// the current status of the build validation and processing steps
-        /// </summary>
-        public GameBuildStatus? Status;
-        /// <summary>
-        /// time this build was last modified (or uploaded, if this build has never been modified)
-        /// </summary>
-        public DateTime Timestamp;
-        /// <summary>
-        /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
-        /// title has been selected.
-        /// </summary>
-        public string TitleId;
-    }
-
-    [Serializable]
-    public class GetServerBuildUploadURLRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// unique identifier of the game server build to upload
-        /// </summary>
-        public string BuildId;
-    }
-
-    [Serializable]
-    public class GetServerBuildUploadURLResult : PlayFabResultCommon
-    {
-        /// <summary>
-        /// pre-authorized URL for uploading the game server build package
-        /// </summary>
-        public string URL;
     }
 
     /// <summary>
@@ -3456,7 +3455,8 @@ namespace PlayFab.AdminModels
     /// <summary>
     /// All items currently in the user inventory will be returned, irrespective of how they were acquired (via purchasing,
     /// grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the
-    /// user's current inventory, and so will not be not included.
+    /// user's current inventory, and so will not be not included. There can be a delay of up to a half a second for inventory
+    /// changes to be reflected in the GetUserInventory API response.
     /// </summary>
     [Serializable]
     public class GetUserInventoryRequest : PlayFabRequestCommon
@@ -3904,20 +3904,6 @@ namespace PlayFab.AdminModels
     }
 
     [Serializable]
-    public class ListBuildsRequest : PlayFabRequestCommon
-    {
-    }
-
-    [Serializable]
-    public class ListBuildsResult : PlayFabResultCommon
-    {
-        /// <summary>
-        /// array of uploaded game server builds
-        /// </summary>
-        public List<GetServerBuildInfoResult> Builds;
-    }
-
-    [Serializable]
     public class ListOpenIdConnectionRequest : PlayFabRequestCommon
     {
     }
@@ -4078,31 +4064,6 @@ namespace PlayFab.AdminModels
         /// The list of subscriptions that this player has for this membership
         /// </summary>
         public List<SubscriptionModel> Subscriptions;
-    }
-
-    /// <summary>
-    /// These details are used by the PlayFab matchmaking service to determine if an existing Game Server Instance has room for
-    /// additional users, and by the PlayFab game server management service to determine when a new Game Server Host should be
-    /// created in order to prevent excess load on existing Hosts. This operation is not additive. Using it will cause the game
-    /// mode definition for the game server executable in question to be created from scratch. If there is an existing game
-    /// server mode definition for the given BuildVersion, it will be deleted and replaced with the data specified in this call.
-    /// </summary>
-    [Serializable]
-    public class ModifyMatchmakerGameModesRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// previously uploaded build version for which game modes are being specified
-        /// </summary>
-        public string BuildVersion;
-        /// <summary>
-        /// array of game modes (Note: this will replace all game modes for the indicated build version)
-        /// </summary>
-        public List<GameModeInfo> GameModes;
-    }
-
-    [Serializable]
-    public class ModifyMatchmakerGameModesResult : PlayFabResultCommon
-    {
     }
 
     [Serializable]
@@ -4310,6 +4271,45 @@ namespace PlayFab.AdminModels
     }
 
     [Serializable]
+    public class PlayerChurnPredictionSegmentFilter : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Comparison
+        /// </summary>
+        public SegmentFilterComparison? Comparison;
+        /// <summary>
+        /// RiskLevel
+        /// </summary>
+        public ChurnRiskLevel? RiskLevel;
+    }
+
+    [Serializable]
+    public class PlayerChurnPredictionTimeSegmentFilter : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Comparison
+        /// </summary>
+        public SegmentFilterComparison? Comparison;
+        /// <summary>
+        /// DurationInDays
+        /// </summary>
+        public double DurationInDays;
+    }
+
+    [Serializable]
+    public class PlayerChurnPreviousPredictionSegmentFilter : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Comparison
+        /// </summary>
+        public SegmentFilterComparison? Comparison;
+        /// <summary>
+        /// RiskLevel
+        /// </summary>
+        public ChurnRiskLevel? RiskLevel;
+    }
+
+    [Serializable]
     public class PlayerLinkedAccount : PlayFabBaseModel
     {
         /// <summary>
@@ -4472,7 +4472,9 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string DisplayName;
         /// <summary>
-        /// List of experiment variants for the player.
+        /// List of experiment variants for the player. Note that these variants are not guaranteed to be up-to-date when returned
+        /// during login because the player profile is updated only after login. Instead, use the LoginResult.TreatmentAssignment
+        /// property during login to get the correct variants and variables.
         /// </summary>
         public List<string> ExperimentVariants;
         /// <summary>
@@ -4831,20 +4833,6 @@ namespace PlayFab.AdminModels
 
     [Serializable]
     public class RemovePlayerTagResult : PlayFabResultCommon
-    {
-    }
-
-    [Serializable]
-    public class RemoveServerBuildRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// unique identifier of the previously uploaded build executable to be removed
-        /// </summary>
-        public string BuildId;
-    }
-
-    [Serializable]
-    public class RemoveServerBuildResult : PlayFabResultCommon
     {
     }
 
@@ -5254,6 +5242,18 @@ namespace PlayFab.AdminModels
         /// Filter property for location.
         /// </summary>
         public LocationSegmentFilter LocationFilter;
+        /// <summary>
+        /// Filter property for current player churn value.
+        /// </summary>
+        public PlayerChurnPredictionSegmentFilter PlayerChurnPredictionFilter;
+        /// <summary>
+        /// Filter property for player churn timespan.
+        /// </summary>
+        public PlayerChurnPredictionTimeSegmentFilter PlayerChurnPredictionTimeFilter;
+        /// <summary>
+        /// Filter property for previous player churn value.
+        /// </summary>
+        public PlayerChurnPreviousPredictionSegmentFilter PlayerChurnPreviousPredictionFilter;
         /// <summary>
         /// Filter property for push notification.
         /// </summary>
@@ -5862,6 +5862,35 @@ namespace PlayFab.AdminModels
     }
 
     /// <summary>
+    /// This API lets developers set overrides for membership expirations, independent of any subscriptions setting it.
+    /// </summary>
+    [Serializable]
+    public class SetMembershipOverrideRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// Expiration time for the membership in DateTime format, will override any subscription expirations.
+        /// </summary>
+        public DateTime ExpirationTime;
+        /// <summary>
+        /// Id of the membership to apply the override expiration date to.
+        /// </summary>
+        public string MembershipId;
+        /// <summary>
+        /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        /// </summary>
+        public string PlayFabId;
+    }
+
+    [Serializable]
+    public class SetMembershipOverrideResult : PlayFabResultCommon
+    {
+    }
+
+    /// <summary>
     /// APIs that require signatures require that the player have a configured Player Secret Key that is used to sign all
     /// requests. Players that don't have a secret will be blocked from making API calls until it is configured. To create a
     /// signature header add a SHA256 hashed string containing UTF8 encoded JSON body as it will be sent to the server, the
@@ -5943,6 +5972,10 @@ namespace PlayFab.AdminModels
     public class SetTitleDataAndOverridesRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// List of titleData key-value pairs to set/delete. Use an empty value to delete an existing key; use a non-empty value to
         /// create/update a key.
         /// </summary>
@@ -5951,6 +5984,10 @@ namespace PlayFab.AdminModels
         /// Name of the override.
         /// </summary>
         public string OverrideLabel;
+        /// <summary>
+        /// Title Id
+        /// </summary>
+        public string TitleId;
     }
 
     [Serializable]
@@ -5969,10 +6006,19 @@ namespace PlayFab.AdminModels
     public class SetTitleDataRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
         /// name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
         /// </summary>
         public string Key;
+        /// <summary>
+        /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+        /// title has been selected.
+        /// </summary>
+        public string TitleId;
         /// <summary>
         /// new value to set. Set to null to remove a value
         /// </summary>
@@ -6001,8 +6047,7 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string Key;
         /// <summary>
-        /// name of the application sending the message (application names must be made up of only uppercase and lowercase ASCII
-        /// letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long)
+        /// This field is deprecated and any usage of this will cause the API to fail.
         /// </summary>
         public string Name;
         /// <summary>
@@ -6579,7 +6624,10 @@ namespace PlayFab.AdminModels
     /// <summary>
     /// Updates permissions for your title. Policies affect what is allowed to happen on your title. Your policy is a collection
     /// of statements that, together, govern particular area for your title. Today, the only allowed policy is called
-    /// 'ApiPolicy' and it governs what api calls are allowed.
+    /// 'ApiPolicy' and it governs what API calls are allowed. To verify that you have the latest version always download the
+    /// current policy from GetPolicy before uploading a new policy. PlayFab updates the base policy periodically and will
+    /// automatically apply it to the uploaded policy. Overwriting the combined policy blindly may result in unexpected API
+    /// errors.
     /// </summary>
     [Serializable]
     public class UpdatePolicyRequest : PlayFabRequestCommon
@@ -6592,6 +6640,10 @@ namespace PlayFab.AdminModels
         /// The name of the policy being updated. Only supported name is 'ApiPolicy'
         /// </summary>
         public string PolicyName;
+        /// <summary>
+        /// Version of the policy to update. Must be the latest (as returned by GetPolicy).
+        /// </summary>
+        public int PolicyVersion;
         /// <summary>
         /// The new statements to include in the policy.
         /// </summary>
@@ -6933,10 +6985,6 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string Username;
         /// <summary>
-        /// Windows Hello account information, if a Windows Hello account has been linked
-        /// </summary>
-        public UserWindowsHelloInfo WindowsHelloInfo;
-        /// <summary>
         /// User XBox account information, if a XBox account has been linked
         /// </summary>
         public UserXboxInfo XboxInfo;
@@ -7129,7 +7177,6 @@ namespace PlayFab.AdminModels
         XboxLive,
         Parse,
         Twitch,
-        WindowsHello,
         ServerCustomId,
         NintendoSwitchDeviceId,
         FacebookInstantGamesId,
@@ -7247,25 +7294,16 @@ namespace PlayFab.AdminModels
     }
 
     [Serializable]
-    public class UserWindowsHelloInfo : PlayFabBaseModel
-    {
-        /// <summary>
-        /// Windows Hello Device Name
-        /// </summary>
-        public string WindowsHelloDeviceName;
-        /// <summary>
-        /// Windows Hello Public Key Hash
-        /// </summary>
-        public string WindowsHelloPublicKeyHash;
-    }
-
-    [Serializable]
     public class UserXboxInfo : PlayFabBaseModel
     {
         /// <summary>
         /// XBox user ID
         /// </summary>
         public string XboxUserId;
+        /// <summary>
+        /// XBox user sandbox
+        /// </summary>
+        public string XboxUserSandbox;
     }
 
     [Serializable]
