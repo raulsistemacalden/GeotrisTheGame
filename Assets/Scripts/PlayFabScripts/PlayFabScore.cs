@@ -12,7 +12,7 @@ public class PlayFabScore : MonoBehaviour
     {
         UpdatePlayerStatisticsRequest requestData = new UpdatePlayerStatisticsRequest(){
             Statistics =new List<StatisticUpdate>(){
-                new StatisticUpdate(){StatisticName = "HighScore", Value= playerScore}
+                new StatisticUpdate(){StatisticName = "Best scores", Value = playerScore}
             }
         };
         PlayFabClientAPI.UpdatePlayerStatistics(requestData, OnStatisticsUpdated, FailureCallback);
@@ -33,7 +33,7 @@ public class PlayFabScore : MonoBehaviour
     public void RequestLeaderboard()
     {
         GetLeaderboardRequest requestData = new GetLeaderboardRequest(){
-            StatisticName = "HighScore",
+            StatisticName = "Best scores",
             StartPosition = 0,
             MaxResultsCount = 10
         };

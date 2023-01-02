@@ -14,12 +14,12 @@ public class MessageManager : MonoBehaviour
         messageTxt = message.GetComponentInChildren<Text>();
     }
     public void ActivateMessage(string namePower) {
-        name = namePower;
+        _name = namePower;
         StartCoroutine("MessageTime");
     }
 
     IEnumerator MessageTime() {
-        switch (name)
+        switch (_name)
         {
             case "PP1(Clone)":
                 messageTxt.text = "Destroy all";
