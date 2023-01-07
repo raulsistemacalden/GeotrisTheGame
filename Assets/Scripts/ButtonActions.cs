@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class ButtonActions : MonoBehaviour
 {
     public InputField _name;    
-    private Ads ads;
     private bool isPaused;
     public GameObject transitionPanel;
     
@@ -16,8 +15,6 @@ public class ButtonActions : MonoBehaviour
 
     public void ButtonStart() {
 
-        ads = GameObject.Find("Ads").GetComponent<Ads>();
-        ads.ShowNormalVideo();
         SceneManager.LoadScene(2);
     }
     //scene load 2 (Game Scene)
@@ -35,8 +32,6 @@ public class ButtonActions : MonoBehaviour
         isPaused = !isPaused;
         if (isPaused)
         {
-            ads = GameObject.Find("Ads").GetComponent<Ads>();
-            ads.ShowNormalVideo();
             Time.timeScale = 0;
         }
         else {
@@ -61,8 +56,6 @@ public class ButtonActions : MonoBehaviour
     public void ButtonMainMenu()
     {
         GameManager._instance.Stop();
-        ads = GameObject.Find("Ads").GetComponent<Ads>();
-        ads.ShowNormalVideo();
         SceneManager.LoadScene(0);
     }
 }

@@ -12,9 +12,9 @@ public class PlayFabLogin : MonoBehaviour
             Please change the titleId below to your own titleId from PlayFab Game Manager.
             If you have already set the value in the Editor Extensions, this can be skipped.
             */
-            PlayFabSettings.staticSettings.TitleId = "7E299";
+            PlayFabSettings.staticSettings.TitleId = "8F5CE";
         }
-        CreatePlayerAndUpdateDisplayName();
+        CreatePlayer();
         
     }
 
@@ -26,7 +26,7 @@ public class PlayFabLogin : MonoBehaviour
     }
   
     
-    void CreatePlayerAndUpdateDisplayName()
+    void CreatePlayer()
     {
 
         var request = new LoginWithAndroidDeviceIDRequest { AndroidDeviceId = ReturnMobileID(), CreateAccount = true };
