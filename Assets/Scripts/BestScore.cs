@@ -14,14 +14,19 @@ public class BestScore : MonoBehaviour
 
     private void Start()
     {
-        scores.SubmitScore(ScoringSystemManager._instance.GetScore());
         bestScore= PlayerPrefs.GetInt("HighScore", bestScore);
-        SetBestScore();
+        SetBestScore();        
+        StartCoroutine(UpdateScore());
         StartCoroutine(ShowLeaderboard());
     }
-    IEnumerator ShowLeaderboard() {
+
+    IEnumerator UpdateScore(){
+        scores.SubmitScore(ScoringSystemManager._instance.GetScore());
         yield return new WaitForSeconds(1);
+    }
+    IEnumerator ShowLeaderboard() {
         scores.RequestLeaderboard();
+        yield return new WaitForSeconds(1);        
     }
     private void SetBestScore() {
         if (ScoringSystemManager._instance.GetScore() > bestScore) {
