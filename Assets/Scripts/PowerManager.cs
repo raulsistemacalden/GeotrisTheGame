@@ -46,16 +46,7 @@ public class PowerManager : MonoBehaviour
         currentSpeed = SpeedManager._instance.speed;
         StartCoroutine("ChangeVelocity");
     }
-    //This power activates the soldier who shoots projectiles
-    private void Power5(){
-        StartCoroutine(ActivateSoldier());
-    }
-
-    IEnumerator ActivateSoldier(){
-        soldier.SetActive(true);
-        yield return new WaitForSeconds(10);
-        soldier.SetActive(false);
-    }
+    
 
     private string RandomPiece(){
         string name = pieces[Random.Range(0,GeneratorManager._instance.GetNumberOfPieces())].name + "(Clone)";
@@ -96,10 +87,7 @@ public class PowerManager : MonoBehaviour
                 break;
             case "PP4(Clone)":
                 Power4();
-                break;
-            case "PP5(Clone)":
-                Power5();
-                break;
+                break;            
             
 
         }

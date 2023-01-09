@@ -1106,11 +1106,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d62094e370b6b33439fee366a80e6574, type: 2}
   - {fileID: 11400000, guid: 02b7be6b6440d1a40b49237972b85ca9, type: 2}
   - {fileID: 11400000, guid: 6c46ea604102bc14fbd4329014a01e19, type: 2}
-  - {fileID: 11400000, guid: fe2d4aeb92d92464bb1a722f2ae3e9d6, type: 2}
-  - {fileID: 11400000, guid: fdf7a7e85eb834d4dab63458052d7eea, type: 2}
-  - {fileID: 11400000, guid: 1270373e8825aa740bae5df5666f2d58, type: 2}
-  - {fileID: 11400000, guid: 0203c39d4668c644c84b1a64105c07e6, type: 2}
-  - {fileID: 11400000, guid: 409780101cb5cd5468c6cc62a86ca35c, type: 2}
   playerName: 
 --- !u!4 &1219883452
 Transform:
