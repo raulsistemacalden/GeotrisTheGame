@@ -10,12 +10,17 @@ public class PlayFabScore : MonoBehaviour
     
     public void SubmitScore(int playerScore)
     {
-        UpdatePlayerStatisticsRequest requestData = new UpdatePlayerStatisticsRequest(){
-            Statistics =new List<StatisticUpdate>(){
-                new StatisticUpdate(){StatisticName = "Best scores", Value = playerScore}
+        UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest(){
+            Statistics =new List<StatisticUpdate>()
+            {
+                new StatisticUpdate()
+                {
+                    StatisticName = "Best scores", 
+                    Value = playerScore
+                }
             }
         };
-        PlayFabClientAPI.UpdatePlayerStatistics(requestData, OnStatisticsUpdated, FailureCallback);
+        PlayFabClientAPI.UpdatePlayerStatistics(request, OnStatisticsUpdated, FailureCallback);        
     }
 
     private void OnStatisticsUpdated(UpdatePlayerStatisticsResult updateResult)
@@ -35,7 +40,7 @@ public class PlayFabScore : MonoBehaviour
         GetLeaderboardRequest requestData = new GetLeaderboardRequest(){
             StatisticName = "Best scores",
             StartPosition = 0,
-            MaxResultsCount = 10
+            MaxResultsCount = 4
         };
         PlayFabClientAPI.GetLeaderboard(requestData, DisplayLeaderboard, FailureCallback);
         
