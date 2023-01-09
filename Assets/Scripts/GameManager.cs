@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
     
     //This method calls the level loader and passes it the scriptable object for that level.
     public void ChargeLevel(){
+        if(level > 9 )
+            SceneManager.LoadScene(3);
         SetInitialValues(levelStats[level]);
         
     }
