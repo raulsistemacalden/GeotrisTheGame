@@ -12,15 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
-  improve_game_scene_visually
   DevAccountEmail: 
   DevAccountToken: 
   SelectedStudio: 
   SdkPath: 
-  DevAccountEmail: raulej196@gmail.com
-  DevAccountToken: eqbrb8ojn159rdjo76apx4xysf3joz5o7ztbeu8yoocj8yech3zzz15wx37s153myrpn78q79hsnt5cr88e99b39rdgj586mwwarohdqbhesuhay5ckeju4bo8h5eauk8p9u73f5uf6ux1mahhawtfcddog96ru4zru8hw1aeah9twrs9iw1ka76ch6bjea9fojs61xx
-  SelectedStudio: GeotrisPruebas
-  SdkPath: Assets/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0

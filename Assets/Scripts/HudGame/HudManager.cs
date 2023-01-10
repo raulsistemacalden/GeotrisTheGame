@@ -9,8 +9,12 @@ public class HudManager : MonoBehaviour
     
     public List<Sprite> backgroundImages;
     public Image panelImage;
-    
-    public GameObject transition;
+    [SerializeField]
+    private GameObject transition;
+
+    void Start(){
+        transition = GameObject.Find("Transition Panel");
+    }
     void Awake(){
         if(_instance!=null && _instance!=this){
             Destroy(gameObject);
