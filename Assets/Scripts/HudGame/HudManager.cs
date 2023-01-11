@@ -10,8 +10,7 @@ public class HudManager : MonoBehaviour
     
     public List<Sprite> backgroundImages;
     public Image panelImage;
-    [SerializeField]
-    private GameObject transition;
+    public GameObject transition;
 
     
     void Awake(){
@@ -19,7 +18,6 @@ public class HudManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
         _instance = this;
     }
     
@@ -29,13 +27,8 @@ public class HudManager : MonoBehaviour
     }
 
     public void ActivateTransition(){
-        if(transition!=null){
-            transition.SetActive(true);
-            transition.GetComponent<Transition>().Activate();
-        }
-        else{
-            transition = Resources.FindObjectsOfTypeAll<GameObject>().Where(x=>x.name=="TransitionPanel").FirstOrDefault();        
-        }
+        transition.SetActive(true);
+        transition.GetComponent<Transition>().Activate();
     }
     
 }

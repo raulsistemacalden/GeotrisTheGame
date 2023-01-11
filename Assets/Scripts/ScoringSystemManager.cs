@@ -17,7 +17,7 @@ public class ScoringSystemManager : MonoBehaviour
             return;
         }
         _instance = this;
-        DontDestroyOnLoad(gameObject); 
+         
     }
 
 
