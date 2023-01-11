@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,7 @@ public class HudManager : MonoBehaviour
     [SerializeField]
     private GameObject transition;
 
-    void Start(){
-        transition = GameObject.Find("Transition Panel");
-    }
+    
     void Awake(){
         if(_instance!=null && _instance!=this){
             Destroy(gameObject);
@@ -30,8 +29,13 @@ public class HudManager : MonoBehaviour
     }
 
     public void ActivateTransition(){
-        transition.SetActive(true);
-        transition.GetComponent<Transition>().Activate();
+        if(transition!=null){
+            transition.SetActive(true);
+            transition.GetComponent<Transition>().Activate();
+        }
+        else{
+            transition = Resources.FindObjectsOfTypeAll<GameObject>().Where(x=>x.name=="TransitionPanel").FirstOrDefault();        
+        }
     }
     
 }
