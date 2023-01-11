@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -515,7 +515,7 @@ SpriteRenderer:
   m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &145073474
@@ -529,7 +529,7 @@ Transform:
   m_LocalPosition: {x: -0.43, y: -3.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 325513506}
+  - {fileID: 5806141488666907490}
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -1041,12 +1041,6 @@ MonoBehaviour:
 --- !u!1 &325513505 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3258725517883831672, guid: b179a562a772e864a94c4aa1d32d03c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 5806141488666907489}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &325513506 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 424469777335788154, guid: b179a562a772e864a94c4aa1d32d03c7,
     type: 3}
   m_PrefabInstance: {fileID: 5806141488666907489}
   m_PrefabAsset: {fileID: 0}
@@ -1644,7 +1638,6 @@ MonoBehaviour:
   - {fileID: 4785477612553213850, guid: 6b4c64fa5c538994db8a7b6bdef4cb47, type: 3}
   - {fileID: 5540989348469952597, guid: e529c22d622a1b74a8777dfa1fe2d522, type: 3}
   - {fileID: 5449911866837519599, guid: e597e954c1af4b148a3562778aa5ae0f, type: 3}
-  - {fileID: 5110048681068809313, guid: 2984d558ccf1a5140b8556d216cf0ab4, type: 3}
   trans:
   - {fileID: 378981224}
   - {fileID: 173084372}
@@ -5090,3 +5083,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b179a562a772e864a94c4aa1d32d03c7, type: 3}
+--- !u!4 &5806141488666907490 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 5806141488666907489}
+  m_PrefabAsset: {fileID: 0}
