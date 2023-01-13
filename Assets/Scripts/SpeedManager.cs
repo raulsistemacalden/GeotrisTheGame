@@ -15,7 +15,7 @@ public class SpeedManager : MonoBehaviour
             return;
         } 
         _instance = this;
-        DontDestroyOnLoad(_instance);
+        
     }
     private void Start()
     {

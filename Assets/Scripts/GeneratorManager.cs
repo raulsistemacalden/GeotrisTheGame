@@ -29,7 +29,7 @@ public class GeneratorManager : MonoBehaviour
             return;
         }
         _instance = this;
-        DontDestroyOnLoad(gameObject);
+        
     }
     private void Start()
     {

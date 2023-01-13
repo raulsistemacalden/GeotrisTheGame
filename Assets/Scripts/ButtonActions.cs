@@ -30,13 +30,10 @@ public class ButtonActions : MonoBehaviour
     }
     public void ButtonPause() {
         isPaused = !isPaused;
-        if (isPaused)
-        {
-            Time.timeScale = 0;
-        }
-        else {
-            Time.timeScale = 1;
-        }
+        if (isPaused) 
+            GameManager._instance.Pause();
+        else 
+            GameManager._instance.Play();
     }
 
 
