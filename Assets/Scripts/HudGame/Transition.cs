@@ -20,7 +20,8 @@ public class Transition : MonoBehaviour
         yield return new WaitForSeconds(5);
         GameManager._instance.Play();
         AudioSystemManager audio = GameObject.Find("AudioSystemManager").GetComponent<AudioSystemManager>();
-        audio.PlayMusic();
+        if(!audio.music.isPlaying)
+            audio.PlayMusic();
         gameObject.SetActive(false);
     }
 

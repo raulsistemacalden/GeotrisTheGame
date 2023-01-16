@@ -65,8 +65,12 @@ public class GameManager : MonoBehaviour
     
     //This method calls the level loader and passes it the scriptable object for that level.
     public void ChargeLevel(){
-        if(level > 9 )
+        if(level > 9 ){
             SceneManager.LoadScene(3);
+            PlayFabScore pFScore = GameObject.Find("PlayFabScore").GetComponent<PlayFabScore>();
+            pFScore.SubmitScore(ScoringSystemManager._instance.GetScore());
+        
+        }
         SetInitialValues(levelStats[level]);
         
     }

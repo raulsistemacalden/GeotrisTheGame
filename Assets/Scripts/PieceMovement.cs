@@ -21,6 +21,8 @@ public class PieceMovement : MonoBehaviour
     //reference to the message system of the game's powers
     private MessageManager message;
 
+    private GarbageCollector gCollector;
+
     private void Start()
     {
         trans = GetComponent<Transform>();
@@ -29,13 +31,18 @@ public class PieceMovement : MonoBehaviour
         dropPieces = GameObject.Find("DropPieces").GetComponent<ListOfDropPieces>();
         power = GameObject.Find("PowerManager").GetComponent<PowerManager>();
         message = GameObject.Find("MessageManager").GetComponent<MessageManager>();
+        gCollector = GameObject.Find("GarbageCollector").GetComponent<GarbageCollector>();
         speed = SpeedManager._instance.speed;
     }
 
     private void Update()
     {
-        if(GameManager._instance.GetState() == GameManager.State.Play)
+        if(GameManager._instance.GetState() == GameManager.State.Play){
             trans.Translate(Vector3.down * speed * Time.deltaTime);
+            if(trans.position.y < -3.7)
+                gCollector.DestroyPiece(this.gameObject);             
+            
+        }
     }
 
     public void SetSpeed(float value) {
@@ -55,6 +62,7 @@ public class PieceMovement : MonoBehaviour
         else if (this.gameObject.tag== "Power") {
             string name = this.gameObject.name;
             power.ActivePower(name);
+            scoring.IncreaseScore(20);
             message.ActivateMessage(name);
             Instantiate(pointsImages[1], transform.position, Quaternion.identity);
             _audio.PlayFx();

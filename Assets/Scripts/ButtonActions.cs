@@ -10,9 +10,7 @@ public class ButtonActions : MonoBehaviour
     private bool isPaused;
     public GameObject transitionPanel;
     
-
     
-
     public void ButtonStart() {
 
         SceneManager.LoadScene(2);
