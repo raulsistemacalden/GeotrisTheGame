@@ -1,8 +1,9 @@
 name: 1) Obtener archivo de activacion de Unity
 
 # Workflow AYUDANTE para conseguir la licencia gratuita de Unity (paso único).
-# Se lanza a mano desde la pestaña "Actions" (botón "Run workflow").
-# Genera un archivo .alf que después subís a Unity para obtener tu licencia .ulf.
+# Se lanza a mano desde la pestaña "Actions" (boton "Run workflow").
+# Corre el editor de Unity dentro de Docker para generar un archivo .alf,
+# que despues subis a Unity para obtener tu licencia .ulf.
 # Ver instrucciones detalladas en SETUP_ES.md.
 
 on:
@@ -10,16 +11,21 @@ on:
 
 jobs:
   activation:
-    name: Solicitar archivo de activacion
+    name: Crear archivo de activacion (.alf)
     runs-on: ubuntu-latest
     steps:
-      - name: Request manual activation file
-        id: getManualLicenseFile
-        uses: game-ci/unity-request-activation-file@v2
+      - name: Crear archivo .alf con el editor de Unity
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/work" -w /work \
+            unityci/editor:ubuntu-2019.3.2f1-base-3.2.2 \
+            bash -c "/opt/unity/Editor/Unity -batchmode -nographics -logFile /dev/stdout -createManualActivationFile -quit || true"
+          echo "---- archivos .alf generados ----"
+          ls -la *.alf
 
-      - name: Subir archivo .alf como artifact
+      - name: Subir el .alf como artifact
         uses: actions/upload-artifact@v4
         with:
           name: Manual Activation File
-          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          path: "*.alf"
+          if-no-files-found: error
           retention-days: 2
