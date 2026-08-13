@@ -10,6 +10,9 @@ public class ControlGameOver : MonoBehaviour
         if (other.tag == "Piece") {
             GameManager._instance.Stop();
             gameOverPanel.SetActive(true);
+            // Anuncio intersticial al perder (no bloquea si no hay ads disponibles).
+            if (AdsManager._instance != null)
+                AdsManager._instance.ShowInterstitial();
         }
     }
 }

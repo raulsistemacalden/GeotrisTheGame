@@ -1106,7 +1106,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d62094e370b6b33439fee366a80e6574, type: 2}
   - {fileID: 11400000, guid: 02b7be6b6440d1a40b49237972b85ca9, type: 2}
   - {fileID: 11400000, guid: 6c46ea604102bc14fbd4329014a01e19, type: 2}
-  playerName: 
+  - {fileID: 11400000, guid: bb85d6e926464343a56765c37f2269c0, type: 2}
+  - {fileID: 11400000, guid: 486208c04e6b4327acc8efdf45f5dedb, type: 2}
+  - {fileID: 11400000, guid: 4111a3d459154c2d968195c79d81cdc6, type: 2}
+  - {fileID: 11400000, guid: e843b1e8695a40909a5854bd1aa1a0e2, type: 2}
+  - {fileID: 11400000, guid: f82b3a7603db42bab49b411a4e65bbb4, type: 2}
+  - {fileID: 11400000, guid: 6ed92db4b9bb43369f5cfac3206f07a5, type: 2}
+  - {fileID: 11400000, guid: 23f1ca851e6f44e3be4e9978cb8787c5, type: 2}
+  - {fileID: 11400000, guid: 16341f362d384b4698d29808adf1d010, type: 2}
+  - {fileID: 11400000, guid: f21dcded6f2f46188f822cb5d9288d7a, type: 2}
+  - {fileID: 11400000, guid: 02c627eca8544ae7adcf37b713fc14d4, type: 2}
+  playerName:
 --- !u!4 &1219883452
 Transform:
   m_ObjectHideFlags: 0

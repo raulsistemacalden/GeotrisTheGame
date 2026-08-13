@@ -50,29 +50,35 @@ public class GameManager : MonoBehaviour
 
     
 
+    // total number of playable levels (defensive: never exceed the wired array)
+    public int TotalLevels(){
+        return levelStats != null ? levelStats.Length : 0;
+    }
+
     public void UpdateLevel(){
-        if(level==16){
-            SceneManager.LoadScene(3);
-        }
-        else{
-            level++;
-        }
-        
+        level++;
     }
     public int GetLevel(){
         return level;
     }
-    
+
     //This method calls the level loader and passes it the scriptable object for that level.
     public void ChargeLevel(){
-        if(level > 9 ){
+        // The player finished the last level -> submit score and go to the final scene.
+        if(level > TotalLevels() - 1){
+            GameObject pfObj = GameObject.Find("PlayFabScore");
+            if(pfObj != null){
+                PlayFabScore pFScore = pfObj.GetComponent<PlayFabScore>();
+                if(pFScore != null)
+                    pFScore.SubmitScore(ScoringSystemManager._instance.GetScore());
+            }
+            // Show an ad before leaving the run, then load the final scene.
+            if(AdsManager._instance != null)
+                AdsManager._instance.ShowInterstitial();
             SceneManager.LoadScene(3);
-            PlayFabScore pFScore = GameObject.Find("PlayFabScore").GetComponent<PlayFabScore>();
-            pFScore.SubmitScore(ScoringSystemManager._instance.GetScore());
-        
+            return; // avoid indexing levelStats out of range
         }
         SetInitialValues(levelStats[level]);
-        
     }
     /*  this method loads the values ​​of the level using scriptableobjects
         sets the speed of the level.

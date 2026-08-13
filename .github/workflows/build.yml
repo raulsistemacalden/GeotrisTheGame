@@ -1,0 +1,77 @@
+name: Build & Deploy (WebGL)
+
+# Compila el juego a WebGL en la nube y lo publica en GitHub Pages.
+# Así podés jugarlo desde un link, sin instalar Unity ni descargar nada.
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: {}   # permite lanzarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build WebGL
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-WebGL-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-WebGL-
+            Library-
+
+      - name: Build Unity project (WebGL)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+
+      - name: Prepare Pages folder
+        run: |
+          set -e
+          mkdir -p public
+          index_path="$(find build -name index.html | head -n1)"
+          if [ -z "$index_path" ]; then
+            echo "No se encontró index.html en la salida del build."
+            find build -maxdepth 3 -type d || true
+            exit 1
+          fi
+          src_dir="$(dirname "$index_path")"
+          echo "Contenido WebGL encontrado en: $src_dir"
+          cp -r "$src_dir"/. public/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
